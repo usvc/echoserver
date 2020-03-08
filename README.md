@@ -47,10 +47,10 @@ services:
 
 ## Environment Variables
 
-| Key | Value |
-| --- | --- |
-| `SERVER_ADDR` | Hostname/IP address that server should bind to |
-| `SERVER_PORT` | Port that server should listen on |
+| Key | Default Value | Description |
+| --- | --- | --- |
+| `SERVER_ADDR` | `"0.0.0.0"` | Hostname/IP address that server should bind to |
+| `SERVER_PORT` | `"8888"` | Port that server should listen on |
 
 - - -
 
