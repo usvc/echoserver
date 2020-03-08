@@ -1,0 +1,12 @@
+version: "3.5"
+services:
+  echoserver:
+    build:
+      context: ..
+      dockerfile: ./deploy/Dockerfile
+    image: usvc/echoserver:latest
+    environment:
+      SERVER_ADDR: 0.0.0.0
+      SERVER_PORT: "8888"
+    ports:
+      - 8888:8888
