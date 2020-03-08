@@ -8,6 +8,8 @@ TIMESTAMP=$(shell date +'%Y%m%d%H%M%S')
 
 -include ./makefile.properties
 
+BIN_PATH=$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT}
+
 deps:
 	go mod vendor -v
 	go mod tidy -v
@@ -17,7 +19,7 @@ test:
 	go test -v ./... -cover -coverprofile c.out
 build:
 	go build \
-		-o ./bin/$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT} \
+		-o ./bin/$(BIN_PATH) \
 		./cmd/$(CMD_ROOT)
 build_production:
 	CGO_ENABLED=0 \
@@ -27,17 +29,21 @@ build_production:
 			-X main.Timestamp=$(TIMESTAMP) \
 			-extldflags 'static' \
 			-s -w" \
-		-o ./bin/$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT} \
+		-o ./bin/$(BIN_PATH) \
 		./cmd/$(CMD_ROOT)
+	sha256sum -b ./bin/$(BIN_PATH) \
+		| cut -f 1 -d ' ' > ./bin/$(BIN_PATH).sha256
 compress:
-	ls -lah ./bin/$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT}
-	upx -9 -v -o ./bin/.$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT} \
-		./bin/$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT}
-	upx -t ./bin/.$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT}
-	rm -rf ./bin/$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT}
-	mv ./bin/.$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT} \
-		./bin/$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT}
-	ls -lah ./bin/$(CMD_ROOT)_$$(go env GOOS)_$$(go env GOARCH)${BIN_EXT}
+	ls -lah ./bin/$(BIN_PATH)
+	upx -9 -v -o ./bin/.$(BIN_PATH) \
+		./bin/$(BIN_PATH)
+	upx -t ./bin/.$(BIN_PATH)
+	rm -rf ./bin/$(BIN_PATH)
+	mv ./bin/.$(BIN_PATH) \
+		./bin/$(BIN_PATH)
+	sha256sum -b ./bin/$(BIN_PATH) \
+		| cut -f 1 -d ' ' > ./bin/$(BIN_PATH).sha256
+	ls -lah ./bin/$(BIN_PATH)
 
 image:
 	docker build \
