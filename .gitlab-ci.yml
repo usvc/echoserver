@@ -68,10 +68,11 @@ build windows:
   extends: .build_windows
   only: ["tags"]
 
-semver bump:
+version bump:
   stage: release
   only: ["master"]
   image: usvc/ci:version-bump-gitlab
+  script: ["entrypoint"]
 
 compress:
   stage: package
