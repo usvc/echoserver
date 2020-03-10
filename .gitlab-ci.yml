@@ -68,7 +68,7 @@ build windows:
   extends: .build_windows
   only: ["tags"]
 
-version bump:
+semver bump:
   stage: release
   only: ["master"]
   image: usvc/ci:version-bump-gitlab
