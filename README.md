@@ -10,21 +10,29 @@ A simple echoserver for use with testing HTTP-based connections in production.
 
 # Usage
 
-## Via binary
+## Executing It
 
-Download the latest binaries from [https://github.com/usvc/echoserver/releases](https://github.com/usvc/echoserver/releases)
+### Via binary
+
+Download the latest binaries from [https://github.com/usvc/echoserver/releases](https://github.com/usvc/echoserver/releases).
+
+Then run in your terminal:
 
 ```sh
 echoserver;
 ```
 
-## Via `docker run` command
+### Via `docker run` command
+
+In your terminal, run:
 
 ```sh
 docker run -it -p 8888:8888 usvc/echoserver:latest;
 ```
 
-## Via `docker-compose` file
+### Via `docker-compose` file
+
+In a `docker-compose.yaml`, paste:
 
 ```yaml
 version: "3.5"
@@ -39,6 +47,116 @@ services:
       SERVER_PORT: "8888"
     ports:
       - 8888:8888
+```
+
+Run it in your terminal with:
+
+```sh
+docker-compose -f ./path/to/docker-compose.yaml up
+```
+
+## Example Queries
+
+### Full example query with cURL
+
+The following demonstrates a fully featured `curl` request piped to `jq` (for ease of reading the result):
+
+```sh
+curl -vv -X POST \
+  --data '{"hello":["you", "world"],"tell_no":1,"its":true,"that":"tis awesome"}' \
+  -H 'X-Custom-Header: see-you-on-the-otherside' \
+  -H 'Referer: http://google.com/some/path' \
+  -H 'Cookie: a=b;c=d' \
+  'http://username:password@localhost:8888/path/to/endpoint?query=this&with=1&with=2' | jq;
+```
+
+The response to the above incantation would look like:
+
+```json
+{
+  "id": "2863f52b-fce2-453b-8f50-4a4151692e53",
+  "request": {
+    "body": {
+      "hello": [
+        "you",
+        "world"
+      ],
+      "its": true,
+      "tell_no": 1,
+      "that": "tis awesome"
+    },
+    "cookies": [
+      {
+        "cookie": "a",
+        "value": "b",
+        "domain": "",
+        "expires": "0001-01-01 00:00:00 +0000 UTC",
+        "secure": false,
+        "http_only": false
+      },
+      {
+        "cookie": "c",
+        "value": "d",
+        "domain": "",
+        "expires": "0001-01-01 00:00:00 +0000 UTC",
+        "secure": false,
+        "http_only": false
+      }
+    ],
+    "header": {
+      "Accept": [
+        "*/*"
+      ],
+      "Authorization": [
+        "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
+      ],
+      "Content-Length": [
+        "70"
+      ],
+      "Content-Type": [
+        "application/x-www-form-urlencoded"
+      ],
+      "Cookie": [
+        "a=b;c=d"
+      ],
+      "Referer": [
+        "http://google.com/some/path"
+      ],
+      "User-Agent": [
+        "curl/7.47.0"
+      ],
+      "X-Custom-Header": [
+        "see-you-on-the-otherside"
+      ]
+    },
+    "hostname": "localhost:8888",
+    "form": null,
+    "method": "POST",
+    "password": "password",
+    "path": "/path/to/endpoint",
+    "protocol": "HTTP/1.1",
+    "query": {
+      "query": [
+        "this"
+      ],
+      "with": [
+        "1",
+        "2"
+      ]
+    },
+    "referer": "http://google.com/some/path",
+    "remote_addr": "127.0.0.1:55406",
+    "size": 70,
+    "user_agent": "curl/7.47.0",
+    "username": "username"
+  },
+  "errors": [],
+  "metadata": {
+    "duration_ms": 1154,
+    "received_timestamp": "2020-03-11T00:49:48.856430509+08:00",
+    "responded_timestamp": "2020-03-11T00:49:48.857584264+08:00"
+  }
+}
 ```
 
 - - -
