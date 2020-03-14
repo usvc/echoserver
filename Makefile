@@ -70,7 +70,7 @@ dockerhub:
 	docker push $(DOCKER_NAMESPACE)/$(DOCKER_IMAGE_NAME):$$(git describe --tag $$(git rev-list --tags --max-count=1))
 
 see_ci:
-	xdg-open https://gitlab.com/usvc/modules/go/semver/pipelines
+	xdg-open https://gitlab.com/usvc/services/echoserver/pipelines
 
 .ssh:
 	mkdir -p ./.ssh
