@@ -3,6 +3,8 @@
 [![latest release](https://badge.fury.io/gh/usvc%2Fechoserver.svg)](https://github.com/usvc/echoserver/releases)
 [![pipeline status](https://gitlab.com/usvc/services/echoserver/badges/master/pipeline.svg)](https://gitlab.com/usvc/services/echoserver/-/commits/master)
 [![Build Status](https://travis-ci.org/usvc/echoserver.svg?branch=master)](https://travis-ci.org/usvc/echoserver)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f5311cc9a7bd253f3c4a/test_coverage)](https://codeclimate.com/github/usvc/echoserver/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f5311cc9a7bd253f3c4a/maintainability)](https://codeclimate.com/github/usvc/echoserver/maintainability)
 
 A simple echoserver for use with testing HTTP-based connections in production.
 
